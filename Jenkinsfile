@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment{
-        PRIVATE_KEY            = credentials('privatekey')
+        PRIVATE_KEY            = credentials('private-key')
         DOCKER_IMAGE           = "dfat243/nginx"
     }
     stages {
