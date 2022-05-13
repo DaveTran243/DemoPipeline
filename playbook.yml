@@ -11,6 +11,7 @@
         dest: /home/ubuntu/
     - name: Restart docker-compose
       shell: |
+          cd /home/ubuntu
           docker-compose stop
           docker-compose rm -f
           docker-compose pull
