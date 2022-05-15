@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment{
         PRIVATE_KEY            = credentials('private_key')
-        DOCKER_IMAGE           = "dfat243/nginx"
+        DOCKER_IMAGE           = "dfat243/nginx-${GIT_BRANCH.tokenize('/').pop()}"
     }
     stages {
         stage("Build"){
