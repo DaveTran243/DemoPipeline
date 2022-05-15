@@ -54,7 +54,7 @@ pipeline {
             options {
                 timeout(time: 10, unit: 'MINUTES')
             }
-            when { expression {env.GIT_BRANCH == 'origin/develop'}}
+            when { expression {env.GIT_BRANCH == 'origin/dev'}}
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                     ansiblePlaybook(
