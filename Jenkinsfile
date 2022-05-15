@@ -28,10 +28,11 @@ pipeline {
                 sh "docker image rm ${DOCKER_IMAGE}:latest"
             }
         }
-        stage("Deploy"){
+        stage("DeployMaster"){
             options {
                 timeout(time: 10, unit: 'MINUTES')
             }
+            when { expession{env.GIT_BRANCH == '/master'}}
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                     ansiblePlaybook(
@@ -48,6 +49,29 @@ pipeline {
                 
             }
         }
+
+        stage("DeployDevelop"){
+            options {
+                timeout(time: 10, unit: 'MINUTES')
+            }
+            when { expession{env.GIT_BRANCH == '/Dev'}}
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    ansiblePlaybook(
+                        credentialsId: 'private_key',
+                        playbook: 'playbook.yml',
+                        inventory: 'hosts',
+                        become: 'yes',
+                        extraVars: [
+                            DOCKER_USERNAME: "${DOCKER_USERNAME}",  
+                            DOCKER_PASSWORD: "${DOCKER_PASSWORD}" 
+                        ]
+                    )
+                }
+                
+            }
+        }
+
     }
     post {
         success {
