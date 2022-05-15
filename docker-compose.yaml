@@ -1,6 +1,6 @@
 version: "2.5"
 services:
   app:
-    image: dfat243/nginx-master:latest
+    image: dfat243/nginx:latest
     ports:
       - "80:80"
